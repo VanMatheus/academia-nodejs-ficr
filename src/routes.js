@@ -18,7 +18,7 @@ app.delete('/products/:id', ProductsController.delete)
 
 app.use((err, req, res, next) => {
   if (!err.statusCode) err.statusCode = 500
-  errorHandle(err, res)
+  errorHandle(err, res, err.lineNumber)
 })
 
 module.exports = app

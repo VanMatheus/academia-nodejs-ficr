@@ -7,12 +7,13 @@ class ErrorHandle extends Error {
 }
 
 const errorHandle = (err, res) => {
-  const { statusCode, message } = err
+  const { statusCode, message, lineNumber } = err
 
   return res.status(statusCode).json({
     error: 'error',
     statusCode,
-    message
+    message,
+    lineNumber
   })
 }
 

@@ -1,6 +1,6 @@
-const { Schema, model } = require('mongoose')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const { Schema, model } = require("mongoose");
+const jwt = require("jsonwebtoken");
+const { hash } = require("bcryptjs");
 
 const UserModel = new Schema({
   name: {
@@ -18,17 +18,17 @@ const UserModel = new Schema({
     require: true,
     select: false
   }
-})
+});
 
-UserModel.pre('save', async function (next) {
-  const hash = await bcrypt.hash(this.password, 10)
-  this.password = hash
+UserModel.pre("save", async function(next) {
+  const hashed = await hash(this.password, 10);
+  this.password = hashed;
 
-  next()
-})
+  next();
+});
 
 UserModel.statics.generateToken = function(params, cb) {
-  return cb(null, jwt.sign(params, 'secret_token'))
-}
+  return cb(null, jwt.sign(params, "secret_token"));
+};
 
-module.exports = model('User', UserModel)
+module.exports = model("User", UserModel);
